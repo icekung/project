@@ -1,0 +1,55 @@
+<?php
+session_start();
+?>
+<meta http-equiv="Content-Language" Content="th"/>
+<meta http-equiv="Content-Type" Content="text/html; charset=utf-8"/>
+
+<?php
+
+require_once('connect.php');
+
+?>
+
+<?php
+
+$user=$_POST['user'];
+$pass=$_POST['pass'];
+
+$sql = "SELECT * FROM tbl_user WHERE username = '".$user."' and password = '".$pass."'";
+$result=mysql_query($sql);
+
+$row=mysql_fetch_array($result);
+
+if(!$row)
+{
+	echo "ผิดพลาดเข้าไม่ได้";
+}
+else
+{
+	$_SESSION['status']="Admin";
+
+	if($row['status']=="1")
+	{
+		$_SESSION['status']="Admin";
+		echo "<script>window.location='index2.php'</script>";
+		
+	}
+
+	else if($row['status']=="2")
+	{
+		$_SESSION['status']="Student";
+		echo "<script>window.location='index2.php'</script>";
+	}
+
+	else if($row['status']=="3")
+	{
+		$_SESSION['status']="Teacher";
+		echo "<script>window.location='index2.php'</script>";
+	}
+
+
+	echo "ยินดีต้อนรับ";
+}
+
+
+?>
